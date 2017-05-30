@@ -20,7 +20,8 @@
 		resize: 1,
 		position: 5,
 		absolute: false,
-		isDefault: true
+		isDefault: true,
+		isJIT: false
 	};
 
 	var params = {
@@ -33,7 +34,6 @@
 	var SVG = '.svg';
 
 	var createUrl = function (imgSrc, params) {
-
 		var newSrc = 'image/{resize}/{width}/{height}{position}';
 
 		newSrc = newSrc.replace('{resize}', params.resize);
@@ -66,7 +66,6 @@
 			}
 
 			if (!!node.length) {
-
 				var
 				width = parseInt(node.attr('data-width'), 10),
 				height = parseInt(node.attr('data-height'), 10),
@@ -80,9 +79,11 @@
 				params.position = position || params.position;
 				params.absolute = absolute || params.absolute;
 				params.isDefault = false;
+				params.isJIT = true;
 
 				return false; //exit for
 			}
+
 			return true;
 		});
 
@@ -134,7 +135,7 @@
 					}
 
 					var p = getParameters(classes, defaults);
-					var url = createUrl(imgSrc, p);
+					var url = (params.isJIT) ? createUrl(imgSrc, p) : imgSrc;
 
 					// bind load event
 					img.addEventListener('load', function (e) { _imageLoaded(e, p, this.src); });
