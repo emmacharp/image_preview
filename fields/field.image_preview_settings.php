@@ -492,8 +492,8 @@ class FieldImage_Preview_Settings extends Field
     {
         return Symphony::Database()->query(
             "CREATE TABLE IF NOT EXISTS `tbl_entries_data_" . $this->get('id') . "` (
-                `id` int(11) unsigned NOT NULL auto_increment,
-                `entry_id` int(11) unsigned NOT NULL,
+                `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `entry_id` INT(11) UNSIGNED NOT NULL,
                 PRIMARY KEY  (`id`),
                 KEY `entry_id` (`entry_id`)
             ) TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
@@ -509,19 +509,19 @@ class FieldImage_Preview_Settings extends Field
 
         return Symphony::Database()->query("
             CREATE TABLE IF NOT EXISTS `$tbl` (
-                `id`                int(11) unsigned NOT NULL auto_increment,
-                `field_id`          int(11) unsigned NOT NULL,
-                `field-handles`     varchar(255) NOT NULL,
-                `table-width`       int(11) unsigned NULL,
-                `table-height`      int(11) unsigned NULL,
-                `table-resize`      int(11) unsigned NULL,
-                `table-position`    int(11) unsigned NULL,
-                `table-absolute`    enum('yes','no') NOT NULL DEFAULT 'no',
-                `entry-width`       int(11) unsigned NULL,
-                `entry-height`      int(11) unsigned NULL,
-                `entry-resize`      int(11) unsigned NULL,
-                `entry-position`    int(11) unsigned NULL,
-                `entry-absolute`    enum('yes','no') NOT NULL DEFAULT 'no',
+                `id`                INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+                `field_id`          INT(11) UNSIGNED NOT NULL,
+                `field-handles`     VARCHAR(255) NOT NULL,
+                `table-width`       INT(11) UNSIGNED NULL,
+                `table-height`      INT(11) UNSIGNED NULL,
+                `table-resize`      INT(11) UNSIGNED NULL,
+                `table-position`    INT(11) UNSIGNED NULL,
+                `table-absolute`    ENUM('yes','no') NOT NULL DEFAULT 'no',
+                `entry-width`       INT(11) UNSIGNED NULL,
+                `entry-height`      INT(11) UNSIGNED NULL,
+                `entry-resize`      INT(11) UNSIGNED NULL,
+                `entry-position`    INT(11) UNSIGNED NULL,
+                `entry-absolute`    ENUM('yes','no') NOT NULL DEFAULT 'no',
                 PRIMARY KEY (`id`),
                 KEY `field_id` (`field_id`)
             )  ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
