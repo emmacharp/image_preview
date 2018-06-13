@@ -249,12 +249,19 @@ class FieldImage_Preview_Settings extends Field
         $settings['entry-absolute'] =  empty($e_absolute) ? 'no' : $e_absolute;
 
         // DB
-        $tbl = self::FIELD_TBL_NAME;
-
-        Symphony::Database()->query("DELETE FROM `$tbl` WHERE `field_id` = '$id' LIMIT 1");
+        Symphony::Database()
+            ->delete(self::FIELD_TBL_NAME)
+            ->where(['field_id' => $id])
+            ->limit(1)
+            ->execute()
+            ->success();
 
         // return if the SQL command was successful
-        return Symphony::Database()->insert($settings, $tbl);
+        return Symphony::Database()
+            ->insert(self::FIELD_TBL_NAME)
+            ->values($settings)
+            ->execute()
+            ->success();
     }
 
 
@@ -490,14 +497,24 @@ class FieldImage_Preview_Settings extends Field
      */
     public function createTable()
     {
-        return Symphony::Database()->query(
-            "CREATE TABLE IF NOT EXISTS `tbl_entries_data_" . $this->get('id') . "` (
-                `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `entry_id` INT(11) UNSIGNED NOT NULL,
-                PRIMARY KEY  (`id`),
-                KEY `entry_id` (`entry_id`)
-            ) TYPE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;"
-        );
+        return Symphony::Database()
+            ->create('tbl_entries_data_' . $this->get('id'))
+            ->ifNotExists()
+            ->charset('utf8')
+            ->collate('utf8_unicode_ci')
+            ->fields([
+                'id' => [
+                    'type' => 'int(11)',
+                    'auto' => true,
+                ],
+                'entry_id' => 'int(11)',
+            ])
+            ->keys([
+                'id' => 'primary',
+                'entry_id' => 'key',
+            ])
+            ->execute()
+            ->success();
     }
 
     /**
@@ -505,27 +522,67 @@ class FieldImage_Preview_Settings extends Field
      */
     public static function createFieldTable()
     {
-        $tbl = self::FIELD_TBL_NAME;
-
-        return Symphony::Database()->query("
-            CREATE TABLE IF NOT EXISTS `$tbl` (
-                `id`                INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `field_id`          INT(11) UNSIGNED NOT NULL,
-                `field-handles`     VARCHAR(255) NOT NULL,
-                `table-width`       INT(11) UNSIGNED NULL,
-                `table-height`      INT(11) UNSIGNED NULL,
-                `table-resize`      INT(11) UNSIGNED NULL,
-                `table-position`    INT(11) UNSIGNED NULL,
-                `table-absolute`    ENUM('yes','no') NOT NULL DEFAULT 'no',
-                `entry-width`       INT(11) UNSIGNED NULL,
-                `entry-height`      INT(11) UNSIGNED NULL,
-                `entry-resize`      INT(11) UNSIGNED NULL,
-                `entry-position`    INT(11) UNSIGNED NULL,
-                `entry-absolute`    ENUM('yes','no') NOT NULL DEFAULT 'no',
-                PRIMARY KEY (`id`),
-                KEY `field_id` (`field_id`)
-            )  ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-        ");
+        return Symphony::Database()
+            ->create(self::FIELD_TBL_NAME)
+            ->ifNotExists()
+            ->charset('utf8')
+            ->collate('utf8_unicode_ci')
+            ->fields([
+                'id' => [
+                    'type' => 'int(11)',
+                    'auto' => true,
+                ],
+                'field_id' => 'int(11)',
+                'field-handles' => 'varchar(255)',
+                'table-width' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'table-height' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'table-resize' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'table-position' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'table-absolute' => [
+                    'type' => 'enum',
+                    'values' => ['yes','no'],
+                    'default' => 'no',
+                ],
+                'entry-width' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'entry-height' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'entry-resize' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'entry-position' => [
+                    'type' => 'int(11)',
+                    'null' => true,
+                ],
+                'entry-absolute' => [
+                    'type' => 'enum',
+                    'values' => ['yes','no'],
+                    'default' => 'no',
+                ],
+            ])
+            ->keys([
+                'id' => 'primary',
+                'field_id' => 'key',
+            ])
+            ->execute()
+            ->success();
     }
 
 
@@ -535,10 +592,10 @@ class FieldImage_Preview_Settings extends Field
      */
     public static function deleteFieldTable()
     {
-        $tbl = self::FIELD_TBL_NAME;
-
-        return Symphony::Database()->query("
-            DROP TABLE IF EXISTS `$tbl`
-        ");
+        return Symphony::Database()
+            ->drop(self::FIELD_TBL_NAME)
+            ->ifExists()
+            ->execute()
+            ->success();
     }
 }
