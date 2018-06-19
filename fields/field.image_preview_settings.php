@@ -304,8 +304,13 @@ class FieldImage_Preview_Settings extends Field
             $parent_section = $this->get('parent_section');
 
             foreach ($aHandles as $handle) {
-                $where = "AND t1.`element_name` = '$handle'";
-                $field = FieldManager::fetch(null, $parent_section, 'ASC', 'sortorder', null, null, $where);
+                $field = (new FieldManager)
+                    ->select()
+                    ->sort('sortorder', 'asc')
+                    ->section($parent_section)
+                    ->where(['t1.element_name' => $handle])
+                    ->execute()
+                    ->next();
                 $fieldId = array_keys($field);
                 $fieldId = $fieldId[0];
 
