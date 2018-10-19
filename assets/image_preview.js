@@ -135,7 +135,7 @@
 					}
 
 					var p = getParameters(classes, defaults);
-					var url = (params.isJIT) ? createUrl(imgSrc, p) : imgSrc;
+					var url = (p.isJIT) ? createUrl(imgSrc, p) : imgSrc;
 
 					// bind load event
 					img.addEventListener('load', function (e) { _imageLoaded(e, p, this.src); });
