@@ -154,9 +154,10 @@
 
 		// entry mode
 		fields.filter('div').css({
-			height: 1,
+			height: 0,
 			minHeight: 0,
-			margin: 0
+			margin: 0,
+			border: 0
 		});
 
 		// table mode
