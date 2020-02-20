@@ -1,0 +1,64 @@
+.field-upload img {
+	max-width: 100%;
+	max-height: var(--dimension-tiny);
+	object-fit: contain;
+}
+
+/* Occupy needed space for image to minimize interface jank --------*/
+.field.field-upload [type="hidden"]~a[href$=".jpg"],
+.field.field-upload [type="hidden"]~a[href$=".jpeg"],
+.field.field-upload [type="hidden"]~a[href$=".png"],
+.field.field-upload [type="hidden"]~a[href$=".gif"],
+.field.field-upload [type="hidden"]~a[href$=".webp"] {
+	font-size: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+	width: calc(100% - var(--standard-inner-rhythm) * 4);
+	height: var(--dimension-tiny);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: var(--standard-inner-rhythm);
+	left: 0;
+	right: 0;
+	border-radius: var(--radius-small);
+	border: 1px dotted var(--color-main-lighter);
+}
+
+/* Show & Position loading img  --------*/
+html:not(.js-active) .field.field-upload a[href$=".jpg"]:before,
+html:not(.js-active) .field.field-upload a[href$=".jpeg"]:before,
+html:not(.js-active) .field.field-upload a[href$=".png"]:before,
+html:not(.js-active) .field.field-upload a[href$=".gif"]:before,
+html:not(.js-active) .field.field-upload a[href$=".webp"]:before {
+	content: url("data:image/svg+xml,%3Csvg version='1.1' id='L2' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 100 102' width='30' height='30' enable-background='new 0 0 100 100' xml:space='preserve'%3E%3Ccircle fill='none' stroke='%23D9E9FF' stroke-width='6' stroke-miterlimit='10' cx='50' cy='50' r='48'/%3E%3Cline fill='none' stroke-linecap='round' stroke='%23D9E9FF' stroke-width='6' stroke-miterlimit='10' x1='50' y1='50' x2='85' y2='50.5'%3E%3CanimateTransform attributeName='transform' dur='2s' type='rotate' from='0 50 50' to='360 50 50' repeatCount='indefinite' /%3E%3C/line%3E%3Cline fill='none' stroke-linecap='round' stroke='%23D9E9FF' stroke-width='6' stroke-miterlimit='10' x1='50' y1='50' x2='49.5' y2='74'%3E%3CanimateTransform attributeName='transform' dur='15s' type='rotate' from='0 50 50' to='360 50 50' repeatCount='indefinite' /%3E%3C/line%3E%3C/svg%3E");
+	position: absolute;
+	width: max-content;
+	height: max-content;
+	top: calc(var(--compensate-for-inner-field-label) + var(--standard-inner-rhythm));
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+
+/* Position image in already occupied space --------*/
+.field.field-upload img {
+	position: absolute;
+	width: 100%;
+}
+
+/* Placeholder for the JS injected button; prevents interface jank --------*/
+html:not(.js-active) .field.field-upload>span:before {
+	margin: var(--standard-inner-rhythm);
+	content: "placeholder";
+	float: right;
+	opacity: 0;
+	box-sizing: content-box;
+	font-size: var(--standard-button-font-size);
+	padding: var(--spacing-thinnest);
+	line-height: 1.1em;
+}

@@ -35,6 +35,7 @@ class extension_image_preview extends Extension
         
         // Only add when editing an entry
         if ($this->startsWith($c, '/publish/')) {
+            Administration::instance()->Page->addStylesheetToHead(URL.'/extensions/image_preview/assets/publish.image_preview.css', 'screen', time()+1);
             Administration::instance()->Page->addScriptToHead(URL.'/extensions/image_preview/assets/image_preview.js',time()+1);
         }
     }
